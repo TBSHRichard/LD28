@@ -33,10 +33,10 @@
 		this.bitmap = new createjs.Bitmap(bitmapAsset);
 		this.addChild(this.bitmap);
 		
-		this.addEventListener("tick", this.onTick);
+		this.addEventListener("tick", onTick);
 	}
 	
-	p.onTick = function(event) {
+	var onTick = function(event) {
 		if (!event.paused) {
 			var arrow = event.currentTarget;
 			arrow.yInfluence -= arrow.DECEL;
@@ -49,7 +49,7 @@
 			arrow.x += xComp;
 			arrow.y += yComp;
 		}
-	};
+	}
 	
 	window.Arrow = Arrow;
 }());

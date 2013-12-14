@@ -9,6 +9,7 @@
 		
 		<!-- Class includes -->
 		<script type="text/javascript" src="src/MathHelper.js"></script>
+		<script type="text/javascript" src="src/IconButton.js"></script>
 		<script type="text/javascript" src="src/Arrow.js"></script>
 		
 		<!-- Main execution -->
@@ -27,7 +28,10 @@
 				
 				assetQueue = new createjs.LoadQueue(false); // temporary 'false' to test locally in Chrome
 				assetQueue.addEventListener("complete", loadedAssets);
-				assetQueue.loadManifest([{id: "arrow", src: "assets/images/arrow.png"}]);
+				assetQueue.loadManifest([
+					{id: "arrow", src: "assets/images/arrow.png"},
+					{id: "icon-button", src: "assets/images/icon-button.png"},
+					{id: "icon-move-left", src: "assets/images/btn-icons/move-left.png"}]);
 				
 				createjs.Ticker.addEventListener("tick", stage);
 			});
@@ -44,12 +48,14 @@
 			
 			function loadedAssets() {
 				isReady = true;
+				
+				stage.addChild(new IconButton(5, 5, assetQueue.getResult("icon-button"), assetQueue.getResult("icon-move-left"), "1"));
 			}
 		</script>
 	</head>
 	
 	<body style="background-color: #000">
-		<canvas id="game-canvas" width="320" height="180">
+		<canvas id="game-canvas" width="544" height="306">
 			You must use a browser which supports canvas in order to play.
 		</canvas>
 	</body>
