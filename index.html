@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<title>LD48 #28 (You Only Get One): Archerilles' Heel</title>
+		<!-- Library CDNs -->
+		<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+		<script type="text/javascript" src="http://code.createjs.com/createjs-2013.09.25.min.js"></script>
+		
+		<!-- Class includes -->
+		<script type="text/javascript" src="src/MathHelper.js"></script>
+		<script type="text/javascript" src="src/Arrow.js"></script>
+		
+		<!-- Main execution -->
+		<script type="text/javascript">
+			var stage;
+			var assetQueue;
+			var isReady = false;
+			var bgColor = "#fff";
+			
+			$(document).ready(function() {
+				stage = new createjs.Stage("game-canvas");
+				
+				var background = new createjs.Shape();
+				background.graphics.beginFill(bgColor).drawRect(0, 0, stage.canvas.width, stage.canvas.height);
+				stage.addChild(background);
+				
+				assetQueue = new createjs.LoadQueue(false); // temporary 'false' to test locally in Chrome
+				assetQueue.addEventListener("complete", loadedAssets);
+				assetQueue.loadManifest([{id: "arrow", src: "assets/images/arrow.png"}]);
+				
+				createjs.Ticker.addEventListener("tick", stage);
+			});
+			
+			$(document).keydown(function(event) {
+				console.log("Key press: " + event.which);
+			
+				if (isReady) {
+					if (event.which == 32) {
+						stage.addChild(new Arrow(0, 90, 30, assetQueue.getResult("arrow")));
+					}
+				}
+			});
+			
+			function loadedAssets() {
+				isReady = true;
+			}
+		</script>
+	</head>
+	
+	<body style="background-color: #000">
+		<canvas id="game-canvas" width="320" height="180">
+			You must use a browser which supports canvas in order to play.
+		</canvas>
+	</body>
+</html>
