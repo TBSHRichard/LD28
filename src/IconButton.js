@@ -16,6 +16,8 @@
 		
 		this.x = x;
 		this.y = y;
+		this.regX = 25;
+		this.regY = 30;
 		
 		var data = {
 			images: [buttonAsset],

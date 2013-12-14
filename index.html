@@ -10,6 +10,7 @@
 		<!-- Class includes -->
 		<script type="text/javascript" src="src/MathHelper.js"></script>
 		<script type="text/javascript" src="src/IconButton.js"></script>
+		<script type="text/javascript" src="src/IconButtonContainer.js"></script>
 		<script type="text/javascript" src="src/Arrow.js"></script>
 		
 		<!-- Main execution -->
@@ -31,7 +32,16 @@
 				assetQueue.loadManifest([
 					{id: "arrow", src: "assets/images/arrow.png"},
 					{id: "icon-button", src: "assets/images/icon-button.png"},
-					{id: "icon-move-left", src: "assets/images/btn-icons/move-left.png"}]);
+					{id: "button-bar", src: "assets/images/button-bar.png"},
+					{id: "icon-move-left", src: "assets/images/btn-icons/move-left.png"},
+					{id: "icon-move-right", src: "assets/images/btn-icons/move-right.png"},
+					{id: "icon-jump", src: "assets/images/btn-icons/jump.png"},
+					{id: "icon-power-shot", src: "assets/images/btn-icons/power-shot.png"},
+					{id: "icon-quiver", src: "assets/images/btn-icons/arrow.png"},
+					{id: "icon-fire", src: "assets/images/btn-icons/fire.png"},
+					{id: "icon-rotate-ccw", src: "assets/images/btn-icons/rotate-ccw.png"},
+					{id: "icon-rotate-cw", src: "assets/images/btn-icons/rotate-cw.png"},
+					{id: "icon-use", src: "assets/images/btn-icons/use.png"}]);
 				
 				createjs.Ticker.addEventListener("tick", stage);
 			});
@@ -49,7 +59,7 @@
 			function loadedAssets() {
 				isReady = true;
 				
-				stage.addChild(new IconButton(5, 5, assetQueue.getResult("icon-button"), assetQueue.getResult("icon-move-left"), "1", function() {console.log("Button Press");}));
+				stage.addChild(new IconButtonContainer(stage.canvas.width, stage.canvas.height, assetQueue));
 			}
 		</script>
 	</head>
