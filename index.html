@@ -9,6 +9,7 @@
 		
 		<!-- Class includes -->
 		<script type="text/javascript" src="src/MathHelper.js"></script>
+		<script type="text/javascript" src="src/Preloader.js"></script>
 		<script type="text/javascript" src="src/IconButton.js"></script>
 		<script type="text/javascript" src="src/IconButtonContainer.js"></script>
 		<script type="text/javascript" src="src/Arrow.js"></script>
@@ -16,6 +17,7 @@
 		<!-- Main execution -->
 		<script type="text/javascript">
 			var stage;
+			var preloaderQueue;
 			var assetQueue;
 			var isReady = false;
 			var bgColor = "#fff";
@@ -27,7 +29,31 @@
 				background.graphics.beginFill(bgColor).drawRect(0, 0, stage.canvas.width, stage.canvas.height);
 				stage.addChild(background);
 				
-				assetQueue = new createjs.LoadQueue(false); // temporary 'false' to test locally in Chrome
+				preloaderQueue = new createjs.LoadQueue();
+				preloaderQueue.loadFile({id: "logo", src: "assets/images/tbsh.png"});
+				preloaderQueue.addEventListener("complete", startPreloader);
+			});
+			
+			$(document).keydown(function(event) {
+				console.log("Key press: " + event.which);
+			
+				if (isReady) {
+					if (event.which == 70) {
+						stage.addChild(new Arrow(0, 90, 30, assetQueue.getResult("arrow")));
+					}
+				}
+			});
+			
+			function startPreloader() {
+				var preloader = new Preloader(stage.canvas.width, stage.canvas.height, preloaderQueue.getResult("logo"), function() {
+					assetQueue = preloader.getAssetQueue();
+					stage.removeChild(preloader);
+					loadedAssets();
+				});
+				
+				stage.addChild(preloader);
+			
+				/*assetQueue = new createjs.LoadQueue();
 				assetQueue.addEventListener("complete", loadedAssets);
 				assetQueue.loadManifest([
 					{id: "arrow", src: "assets/images/arrow.png"},
@@ -41,20 +67,10 @@
 					{id: "icon-fire", src: "assets/images/btn-icons/fire.png"},
 					{id: "icon-rotate-ccw", src: "assets/images/btn-icons/rotate-ccw.png"},
 					{id: "icon-rotate-cw", src: "assets/images/btn-icons/rotate-cw.png"},
-					{id: "icon-use", src: "assets/images/btn-icons/use.png"}]);
+					{id: "icon-use", src: "assets/images/btn-icons/use.png"}]);*/
 				
 				createjs.Ticker.addEventListener("tick", stage);
-			});
-			
-			$(document).keydown(function(event) {
-				console.log("Key press: " + event.which);
-			
-				if (isReady) {
-					if (event.which == 32) {
-						stage.addChild(new Arrow(0, 90, 30, assetQueue.getResult("arrow")));
-					}
-				}
-			});
+			}
 			
 			function loadedAssets() {
 				isReady = true;
