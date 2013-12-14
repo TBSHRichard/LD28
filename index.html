@@ -49,7 +49,7 @@
 			function loadedAssets() {
 				isReady = true;
 				
-				stage.addChild(new IconButton(5, 5, assetQueue.getResult("icon-button"), assetQueue.getResult("icon-move-left"), "1"));
+				stage.addChild(new IconButton(5, 5, assetQueue.getResult("icon-button"), assetQueue.getResult("icon-move-left"), "1", function() {console.log("Button Press");}));
 			}
 		</script>
 	</head>

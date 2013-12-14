@@ -41,8 +41,6 @@
 		
 		this.addEventListener("click", clickFunction);
 		
-		// Mouse up is a bit finnicky; figure out what's wrong if time
-		/*
 		this.addEventListener("pressup", function(event) {
 			var iButton = event.currentTarget;
 			
@@ -56,7 +54,7 @@
 			iButton.button.gotoAndStop("down");
 			iButton.icon.y = 7;
 			iButton.keyText.y = 10;
-		});*/
+		});
 	}
 	
 	window.IconButton = IconButton;
