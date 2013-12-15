@@ -22,11 +22,11 @@
 		var startX = width / 2;
 		var startY = 30;
 		
-		topButtons.addChild(new IconButton(startX - 120, startY, assetQueue.getResult("icon-button"), assetQueue.getResult("icon-move-left"), "1", function() {}));
-		topButtons.addChild(new IconButton(startX - 60, startY, assetQueue.getResult("icon-button"), assetQueue.getResult("icon-move-right"), "2", function() {}));
-		topButtons.addChild(new IconButton(startX, startY, assetQueue.getResult("icon-button"), assetQueue.getResult("icon-jump"), "3", function() {}));
-		topButtons.addChild(new IconButton(startX + 60, startY, assetQueue.getResult("icon-button"), assetQueue.getResult("icon-power-shot"), "4", function() {}));
-		topButtons.addChild(new IconButton(startX + 120, startY, assetQueue.getResult("icon-button"), assetQueue.getResult("icon-quiver"), "5", function() {}));
+		topButtons.addChild(new IconButton(startX - 120, startY, assetQueue.getResult("icon-button"), assetQueue.getResult("icon-move-left"), "1", function() { GlobalControls.choosePower(0); }));
+		topButtons.addChild(new IconButton(startX - 60, startY, assetQueue.getResult("icon-button"), assetQueue.getResult("icon-move-right"), "2", function() { GlobalControls.choosePower(1); }));
+		topButtons.addChild(new IconButton(startX, startY, assetQueue.getResult("icon-button"), assetQueue.getResult("icon-jump"), "3", function() { GlobalControls.choosePower(2); }));
+		topButtons.addChild(new IconButton(startX + 60, startY, assetQueue.getResult("icon-button"), assetQueue.getResult("icon-power-shot"), "4", function() { GlobalControls.choosePower(3); }));
+		topButtons.addChild(new IconButton(startX + 120, startY, assetQueue.getResult("icon-button"), assetQueue.getResult("icon-quiver"), "5", function() { GlobalControls.choosePower(4); }));
 		
 		var bottomBar = new createjs.Shape();
 		bottomBar.graphics.beginBitmapFill(assetQueue.getResult("button-bar"), "repeat", barMatrix).drawRect(0, height - 60, width, 60);
@@ -34,10 +34,18 @@
 		var bottomButtons = new createjs.Container();
 		startY = height - 36;
 		
-		bottomButtons.addChild(new IconButton(30, startY, assetQueue.getResult("icon-button"), assetQueue.getResult("icon-use"), "W", function() {}));
-		bottomButtons.addChild(new IconButton(startX - 30, startY, assetQueue.getResult("icon-button"), assetQueue.getResult("icon-rotate-ccw"), "A", function() {}));
-		bottomButtons.addChild(new IconButton(startX + 30, startY, assetQueue.getResult("icon-button"), assetQueue.getResult("icon-rotate-cw"), "D", function() {}));
-		bottomButtons.addChild(new IconButton(width - 30, startY, assetQueue.getResult("icon-button"), assetQueue.getResult("icon-fire"), "F", function() {}));
+		var ccwButton = new IconButton(startX - 30, startY, assetQueue.getResult("icon-button"), assetQueue.getResult("icon-rotate-ccw"), "A", function() {});
+		ccwButton.addEventListener("mousedown", function() { GlobalControls.setIsRotatingCCW(true); });
+		ccwButton.addEventListener("pressup", function() { GlobalControls.setIsRotatingCCW(false); });
+		
+		var cwButton = new IconButton(startX + 30, startY, assetQueue.getResult("icon-button"), assetQueue.getResult("icon-rotate-cw"), "D", function() {});
+		cwButton.addEventListener("mousedown", function() { GlobalControls.setIsRotatingCW(true); });
+		cwButton.addEventListener("pressup", function() { GlobalControls.setIsRotatingCW(false); });
+		
+		bottomButtons.addChild(new IconButton(30, startY, assetQueue.getResult("icon-button"), assetQueue.getResult("icon-use"), "W", function() { GlobalControls.usePower(); }));
+		bottomButtons.addChild(ccwButton);
+		bottomButtons.addChild(cwButton);
+		bottomButtons.addChild(new IconButton(width - 30, startY, assetQueue.getResult("icon-button"), assetQueue.getResult("icon-fire"), "F", function() { GlobalControls.fire(); }));
 		
 		this.addChild(background);
 		this.addChild(topBar);

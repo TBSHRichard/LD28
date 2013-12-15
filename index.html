@@ -9,6 +9,7 @@
 		
 		<!-- Class includes -->
 		<script type="text/javascript" src="src/MathHelper.js"></script>
+		<script type="text/javascript" src="src/GlobalControls.js"></script>
 		<script type="text/javascript" src="src/Preloader.js"></script>
 		<script type="text/javascript" src="src/IconButton.js"></script>
 		<script type="text/javascript" src="src/IconButtonContainer.js"></script>
@@ -28,6 +29,9 @@
 			$(document).ready(function() {
 				stage = new createjs.Stage("game-canvas");
 				
+				if (createjs.Touch.isSupported)
+					createjs.Touch.enable(stage);
+				
 				var background = new createjs.Shape();
 				background.graphics.beginFill(bgColor).drawRect(0, 0, stage.canvas.width, stage.canvas.height);
 				stage.addChild(background);
@@ -37,7 +41,7 @@
 				preloaderQueue.addEventListener("complete", startPreloader);
 			});
 	
-			var isRotatingCCW = false;
+			/*var isRotatingCCW = false;
 			var isRotatingCW = false;
 			
 			$(document).keydown(function(event) {
@@ -65,7 +69,7 @@
 							break;
 					}
 				}
-			});
+			});*/
 			
 			function startPreloader() {
 				var preloader = new Preloader(stage.canvas.width, stage.canvas.height, preloaderQueue.getResult("logo"), function() {
@@ -76,9 +80,9 @@
 				
 				stage.addChild(preloader);
 				
-				//createjs.Ticker.addEventListener("tick", stage);
+				createjs.Ticker.addEventListener("tick", stage);
 			
-				createjs.Ticker.addEventListener("tick", function() {
+				/*createjs.Ticker.addEventListener("tick", function() {
 					if (isRotatingCCW) {
 						currentView.rotateCCW();
 					}
@@ -88,13 +92,14 @@
 					}
 					
 					stage.update();
-				});
+				});*/
 			}
 			
 			function loadedAssets() {
 				isReady = true;
 				
 				currentView = new GameView(stage.canvas.width, stage.canvas.height, assetQueue)
+				GlobalControls.setView(currentView);
 				stage.addChild(currentView);
 			}
 		</script>
