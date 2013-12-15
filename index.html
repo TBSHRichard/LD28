@@ -12,7 +12,9 @@
 		<script type="text/javascript" src="src/Preloader.js"></script>
 		<script type="text/javascript" src="src/IconButton.js"></script>
 		<script type="text/javascript" src="src/IconButtonContainer.js"></script>
+		<script type="text/javascript" src="src/Archerilles.js"></script>
 		<script type="text/javascript" src="src/Arrow.js"></script>
+		<script type="text/javascript" src="src/GameView.js"></script>
 		
 		<!-- Main execution -->
 		<script type="text/javascript">
@@ -21,6 +23,7 @@
 			var assetQueue;
 			var isReady = false;
 			var bgColor = "#fff";
+			var currentView;
 			
 			$(document).ready(function() {
 				stage = new createjs.Stage("game-canvas");
@@ -33,13 +36,33 @@
 				preloaderQueue.loadFile({id: "logo", src: "assets/images/tbsh.png"});
 				preloaderQueue.addEventListener("complete", startPreloader);
 			});
+	
+			var isRotatingCCW = false;
+			var isRotatingCW = false;
 			
 			$(document).keydown(function(event) {
-				console.log("Key press: " + event.which);
-			
 				if (isReady) {
-					if (event.which == 70) {
-						stage.addChild(new Arrow(0, 90, 30, assetQueue.getResult("arrow")));
+					switch(event.which) {
+						case 65: // A
+							isRotatingCCW = true;
+							break;
+						case 68: // D
+							isRotatingCW = true;
+							break;
+						case 70: // F
+							currentView.fireArrow();
+							break;
+					}
+				}
+			}).keyup(function(event) {
+				if (isReady) {
+					switch(event.which) {
+						case 65: // A
+							isRotatingCCW = false;
+							break;
+						case 68: // D
+							isRotatingCW = false;
+							break;
 					}
 				}
 			});
@@ -52,30 +75,27 @@
 				});
 				
 				stage.addChild(preloader);
-			
-				/*assetQueue = new createjs.LoadQueue();
-				assetQueue.addEventListener("complete", loadedAssets);
-				assetQueue.loadManifest([
-					{id: "arrow", src: "assets/images/arrow.png"},
-					{id: "icon-button", src: "assets/images/icon-button.png"},
-					{id: "button-bar", src: "assets/images/button-bar.png"},
-					{id: "icon-move-left", src: "assets/images/btn-icons/move-left.png"},
-					{id: "icon-move-right", src: "assets/images/btn-icons/move-right.png"},
-					{id: "icon-jump", src: "assets/images/btn-icons/jump.png"},
-					{id: "icon-power-shot", src: "assets/images/btn-icons/power-shot.png"},
-					{id: "icon-quiver", src: "assets/images/btn-icons/arrow.png"},
-					{id: "icon-fire", src: "assets/images/btn-icons/fire.png"},
-					{id: "icon-rotate-ccw", src: "assets/images/btn-icons/rotate-ccw.png"},
-					{id: "icon-rotate-cw", src: "assets/images/btn-icons/rotate-cw.png"},
-					{id: "icon-use", src: "assets/images/btn-icons/use.png"}]);*/
 				
-				createjs.Ticker.addEventListener("tick", stage);
+				//createjs.Ticker.addEventListener("tick", stage);
+			
+				createjs.Ticker.addEventListener("tick", function() {
+					if (isRotatingCCW) {
+						currentView.rotateCCW();
+					}
+					
+					if (isRotatingCW) {
+						currentView.rotateCW();
+					}
+					
+					stage.update();
+				});
 			}
 			
 			function loadedAssets() {
 				isReady = true;
 				
-				stage.addChild(new IconButtonContainer(stage.canvas.width, stage.canvas.height, assetQueue));
+				currentView = new GameView(stage.canvas.width, stage.canvas.height, assetQueue)
+				stage.addChild(currentView);
 			}
 		</script>
 	</head>

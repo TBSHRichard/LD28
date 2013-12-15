@@ -33,7 +33,7 @@
 		
 		this.icon = new createjs.Bitmap(iconAsset);
 		
-		this.keyText = new createjs.Text(key, "12px Arial", "#000");
+		this.keyText = new createjs.Text(key, "14px Arial", "#000");
 		this.keyText.x = 45 - this.keyText.getMeasuredWidth();
 		this.keyText.y = 3;
 		
