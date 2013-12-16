@@ -32,7 +32,9 @@
 				drawn: [0],
 				fired: [1]}}), "drawn");
 		bow.regX = -30;
-		bow.regY = 30;
+		bow.regY = 30 * 0.75;
+		bow.scaleX = 0.75;
+		bow.scaleY = 0.75;
 		this.bow = bow;
 		
 		this.legsContainer = new createjs.Container();
@@ -80,14 +82,12 @@
 	p.moveLeft = function() {
 		if (!this.parent.hitWall(-25, -40)) {
 			this.x -= 5;
-			this.parent.updateCamera();
 		}
 	}
 	
 	p.moveRight = function() {
 		if (!this.parent.hitWall(25, -40)) {
 			this.x += 5;
-			this.parent.updateCamera();
 		}
 	}
 	

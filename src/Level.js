@@ -12,6 +12,7 @@
 	p.currentPower;
 	p.arrowContainer;
 	p.isFollowingArrow = false;
+	p.activeArrow;
 	p.walls;
 	p.targetContainer;
 	p.targetHelpers;
@@ -54,6 +55,8 @@
 		this.addChild(this.arrowContainer);
 		this.addChild(this.walls);
 		this.addChild(this.archerilles);
+		
+		this.addEventListener("tick", update);
 	}
 	
 	p.rotateCCW = function() {
@@ -65,10 +68,15 @@
 	}
 	
 	p.fireArrow = function() {
-		var bowAngle = this.archerilles.getBowRotation();
-		
-		this.arrowContainer.addChild(new Arrow(this.archerilles.x + 86 * Math.cos(MathHelper.degreesToRadians(bowAngle)),
-			this.archerilles.y + -86 * Math.sin(MathHelper.degreesToRadians(bowAngle)), bowAngle, assetQueue.getResult("arrow")));
+		if (!this.isFollowingArrow) {
+			var bowAngle = this.archerilles.getBowRotation();
+			var arrow = new Arrow(this.archerilles.x + (86 * 0.75) * Math.cos(MathHelper.degreesToRadians(bowAngle)),
+				this.archerilles.y + (-86 * 0.75) * Math.sin(MathHelper.degreesToRadians(bowAngle)), bowAngle, assetQueue.getResult("arrow"));
+			
+			this.isFollowingArrow = true;
+			this.activeArrow = arrow;
+			this.arrowContainer.addChild(arrow);
+		}
 	}
 	
 	p.switchPower = function(id) {
@@ -123,12 +131,34 @@
 		return assetQueue.getResult("overlay-normal");
 	}
 	
-	p.updateCamera = function() {
-		if (this.isFollowingArrow) {
-		
+	p.deleteActiveArrow = function() {
+		this.isFollowingArrow = false;
+		this.arrowContainer.removeAllChildren();
+		this.activeArrow = null;
+	}
+	
+	function update(event) {
+		var level = event.currentTarget;
+	
+		if (level.isFollowingArrow) {
+			level.x = -1 * level.activeArrow.x + level.width / 2;
+			level.y = -1 * level.activeArrow.y + level.height / 2;
+			
+			if (level.walls.metal.hitTest(level.activeArrow.x, level.activeArrow.y)) {
+				if (level.walls.metal.hitTest(level.activeArrow.x, level.activeArrow.y - 52)) {
+					level.activeArrow.deltaX *= -1;
+				}
+				else {
+					level.activeArrow.deltaY *= -1;
+				}
+			}
+			else if (level.walls.floor.hitTest(level.activeArrow.x, level.activeArrow.y)) {
+				level.deleteActiveArrow();
+			}
 		}
 		else {
-			this.x = -1 * this.archerilles.x + this.width / 2;
+			level.x = -1 * level.archerilles.x + level.width / 2;
+			level.y = -1 * level.archerilles.y + level.height / 2;
 		}
 	}
 	

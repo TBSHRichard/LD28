@@ -18,10 +18,12 @@
 	
 		this.x = x;
 		this.y = y;
+		this.scaleX = 0.75;
+		this.scaleY = 0.75;
 		this.rotation = -1 * rotation;
 		
-		this.regX = 56;
-		this.regY = 15;
+		this.regX = 56 * 0.75;
+		this.regY = 15 * 0.75;
 		
 		this.deltaX = Math.cos(MathHelper.degreesToRadians(rotation)) * this.INITIAL_V;
 		this.deltaY = -1 * Math.sin(MathHelper.degreesToRadians(rotation)) * this.INITIAL_V;
