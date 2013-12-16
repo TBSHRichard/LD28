@@ -28,7 +28,7 @@
 	}
 	
 	p.gotoMainMenu = function() {
-	
+		this.switchView(new MainMenuView(this.assetQueue));
 	}
 	
 	p.gotoLevel = function(levelId, power) {

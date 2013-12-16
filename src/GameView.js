@@ -56,10 +56,12 @@
 	p.success = function() {
 		this.addChild(new BeginningOverlay(0, this.width, this.height, this.assetQueue.getResult("success")));
 		this.addChild(new TextButton(this.width / 2 - 205, this.height - 100, "Next Level", this.assetQueue, function(event) {
+			var view = event.currentTarget.parent.parent;
 			
+			view.parent.gotoLevel(view.levelIndex + 1);
 		}));
 		this.addChild(new TextButton(this.width / 2 + 5, this.height - 100, "Quit", this.assetQueue, function(event) {
-			
+			event.currentTarget.parent.parent.parent.gotoMainMenu();
 		}));
 	}
 	
@@ -71,7 +73,7 @@
 			view.parent.gotoLevel(view.levelIndex);
 		}));
 		this.addChild(new TextButton(this.width / 2 + 5, this.height - 100, "Quit", this.assetQueue, function(event) {
-			
+			event.currentTarget.parent.parent.parent.gotoMainMenu();
 		}));
 	}
 	
