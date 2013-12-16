@@ -15,11 +15,12 @@
 	p.activeArrow;
 	p.walls;
 	p.targetContainer;
+	p.targetTrackerContainer;
 	p.targetHelpers;
-	p.targets = [];
+	p.targets;
 	p.numberOfTargets = 0;
-	p.dtWalls = [];
-	p.bouncers = [];
+	p.dtWalls;
+	p.bouncers;
 	
 	p.Container_initialize = p.initialize;
 	p.initialize = function(width, height, levelId, assetQueue, data) {
@@ -38,6 +39,10 @@
 		
 		this.walls = SvgXmlHelper.createWallsFromXml(assetQueue.getResult("level-" + levelId), assetQueue);
 		
+		this.targets = [];
+		this.numberOfTargets = 0;
+		this.targetTrackerContainer = new createjs.Container();
+		
 		this.targetContainer = new createjs.Container();
 		for (var t = 0; t < data.targets.length; t++) {
 			var target = new createjs.Bitmap(assetQueue.getResult("target"));
@@ -48,15 +53,28 @@
 			
 			this.targets.push(target);
 			this.targetContainer.addChild(target);
+			this.targetTrackerContainer.addChild(new TargetTracker(target, this.getViewportRectangle(), assetQueue));
 			this.numberOfTargets++;
 		}
 		
+		this.dtWalls = [];
+		this.bouncers = [];
+		
 		this.addChild(this.targetContainer);
+		this.addChild(this.targetTrackerContainer);
 		this.addChild(this.arrowContainer);
 		this.addChild(this.walls);
 		this.addChild(this.archerilles);
 		
 		this.addEventListener("tick", update);
+	}
+	
+	p.getViewportRectangle = function() {
+		return new createjs.Rectangle(
+			this.archerilles.x - this.width / 2,
+			this.archerilles.y - (this.height - 126) / 2,
+			this.archerilles.x + this.width / 2 - (this.archerilles.x - this.width / 2),
+			this.archerilles.y + (this.height - 126) / 2 - (this.archerilles.y - (this.height - 126) / 2));
 	}
 	
 	p.rotateCCW = function() {
@@ -73,9 +91,11 @@
 			var arrow = new Arrow(this.archerilles.x + (86 * 0.75) * Math.cos(MathHelper.degreesToRadians(bowAngle)),
 				this.archerilles.y + (-86 * 0.75) * Math.sin(MathHelper.degreesToRadians(bowAngle)), bowAngle, assetQueue.getResult("arrow"));
 			
+			this.archerilles.fireArrow();
 			this.isFollowingArrow = true;
 			this.activeArrow = arrow;
 			this.arrowContainer.addChild(arrow);
+			this.targetTrackerContainer.alpha = 0;
 		}
 	}
 	
@@ -131,21 +151,25 @@
 		return assetQueue.getResult("overlay-normal");
 	}
 	
-	p.deleteActiveArrow = function() {
+	p.stopActiveArrow = function() {
 		this.isFollowingArrow = false;
-		this.arrowContainer.removeAllChildren();
+		this.activeArrow.isStopped = true;
 		this.activeArrow = null;
 	}
 	
 	function update(event) {
 		var level = event.currentTarget;
+		
+		level.targetTrackerContainer.children.forEach(function(element, index, array) {
+			element.update(level.getViewportRectangle());
+		});
 	
 		if (level.isFollowingArrow) {
 			level.x = -1 * level.activeArrow.x + level.width / 2;
 			level.y = -1 * level.activeArrow.y + level.height / 2;
 			
 			if (level.walls.metal.hitTest(level.activeArrow.x, level.activeArrow.y)) {
-				if (level.walls.metal.hitTest(level.activeArrow.x, level.activeArrow.y - 52)) {
+				if (!level.walls.metal.hitTest(level.activeArrow.x - level.activeArrow.deltaX, level.activeArrow.y) || !level.walls.metal.hitTest(level.activeArrow.x + level.activeArrow.deltaX, level.activeArrow.y)) {
 					level.activeArrow.deltaX *= -1;
 				}
 				else {
@@ -153,7 +177,7 @@
 				}
 			}
 			else if (level.walls.floor.hitTest(level.activeArrow.x, level.activeArrow.y)) {
-				level.deleteActiveArrow();
+				level.stopActiveArrow();
 			}
 		}
 		else {

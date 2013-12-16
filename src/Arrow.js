@@ -11,6 +11,7 @@
 	p.deltaX;
 	p.deltaY;
 	p.bitmap;
+	p.isStopped;
 	
 	p.Container_initialize = p.initialize;
 	p.initialize = function(x, y, rotation, bitmapAsset) {
@@ -25,6 +26,8 @@
 		this.regX = 56 * 0.75;
 		this.regY = 15 * 0.75;
 		
+		this.isStopped = false;
+		
 		this.deltaX = Math.cos(MathHelper.degreesToRadians(rotation)) * this.INITIAL_V;
 		this.deltaY = -1 * Math.sin(MathHelper.degreesToRadians(rotation)) * this.INITIAL_V;
 		
@@ -35,8 +38,9 @@
 	}
 	
 	var onTick = function(event) {
-		if (!event.paused) {
-			var arrow = event.currentTarget;
+		var arrow = event.currentTarget;
+		
+		if (!event.paused && !arrow.isStopped) {
 			arrow.deltaY += arrow.DECEL;
 			
 			arrow.rotation = MathHelper.radiansToDegrees(Math.atan2(arrow.deltaY, arrow.deltaX));

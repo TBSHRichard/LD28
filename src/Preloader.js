@@ -56,6 +56,8 @@
 			{id: "bg-front", src: "assets/images/background-front.png"},
 			{id: "texture-metal", src: "assets/images/texture-metal.png"},
 			{id: "texture-wood", src: "assets/images/texture-wood.png"},
+			{id: "target-tracker", src: "assets/images/target-tracker.png"},
+			{id: "target-pointer", src: "assets/images/target-pointer.png"},
 			{id: "overlay-normal", src: "assets/images/overlay-normal.png"},
 			{id: "overlay-t1", src: "assets/images/overlay-t1.png"},
 			{id: "overlay-t2", src: "assets/images/overlay-t2.png"},

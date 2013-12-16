@@ -15,6 +15,7 @@
 	p.assetQueue;
 	p.width;
 	p.height;
+	p.tutorialOverlay;
 	
 	p.Container_initialize = p.initialize;
 	p.initialize = function(width, height, assetQueue, levelIndex, levelClassesArray) {
@@ -39,10 +40,12 @@
 			overlay.setTopEnabled(element, false);
 		});
 		
+		this.tutorialOverlay = new BeginningOverlay(66, width, height - 66, this.level.getBeginningOverlay(assetQueue));
+		
 		this.addChild(this.background);
 		this.addChild(this.level);
 		this.addChild(this.overlay);
-		this.addChild(new BeginningOverlay(66, width, height - 66, this.level.getBeginningOverlay(assetQueue)));
+		this.addChild(this.tutorialOverlay);
 	}
 	
 	p.rotateCCW = function() { this.level.rotateCCW(); }
@@ -50,11 +53,9 @@
 	p.fireArrow = function() { this.level.fireArrow(); }
 	
 	p.switchPower = function(id) {
-		console.log("out");
 		if (!this.hasSelectedPower) {
-			console.log("in");
 			this.hasSelectedPower = true;
-			this.removeChildAt(3);
+			this.removeChild(this.tutorialOverlay);
 			
 			this.level.switchPower(id);
 			
