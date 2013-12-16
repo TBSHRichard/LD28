@@ -12,9 +12,9 @@
 	
 	p.Container_initialize = p.initialize;
 	p.initialize = function(stage, assetQueue) {
-		this.gameLevelsArray = [TutorialLevel1];
+		this.gameLevelsArray = [TutorialLevel1, TutorialLevel2];
 		
-		this.currentView = new GameView(stage.canvas.width, stage.canvas.height, assetQueue, 0, this.gameLevelsArray);
+		this.currentView = new GameView(stage.canvas.width, stage.canvas.height, assetQueue, 1, this.gameLevelsArray);
 		this.stage = stage;
 		this.assetQueue = assetQueue;
 		

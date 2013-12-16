@@ -1,11 +1,11 @@
 (function() {
 	var TutorialLevel1 = function(width, height, assetQueue) {
 		this.initialize(width, height, "t1", assetQueue, {
-			startX: 450,
-			startY: 290,
+			startX: 500,
+			startY: 340,
 			hasWood: false,
 			disabledPowers: [1, 2, 3, 4],
-			targets: [{x: 225, y: 75}],
+			targets: [{x: 275, y: 125}],
 			dtWalls: [],
 			bouncers: []
 		});

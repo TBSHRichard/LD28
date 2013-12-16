@@ -78,7 +78,8 @@
 			{id: "icon-rotate-ccw", src: "assets/images/btn-icons/rotate-ccw.png"},
 			{id: "icon-rotate-cw", src: "assets/images/btn-icons/rotate-cw.png"},
 			{id: "icon-use", src: "assets/images/btn-icons/use.png"},
-			{id: "level-t1", src: "assets/levels/t1.svg", type: createjs.LoadQueue.XML}]);
+			{id: "level-t1", src: "assets/levels/t1.svg", type: createjs.LoadQueue.XML},
+			{id: "level-t2", src: "assets/levels/t2.svg", type: createjs.LoadQueue.XML}]);
 			
 		this.addChild(fadedLogo);
 		this.addChild(loadingText);

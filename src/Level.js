@@ -61,10 +61,10 @@
 		this.bouncers = [];
 		
 		this.addChild(this.targetContainer);
-		this.addChild(this.targetTrackerContainer);
 		this.addChild(this.arrowContainer);
 		this.addChild(this.walls);
 		this.addChild(this.archerilles);
+		this.addChild(this.targetTrackerContainer);
 		
 		this.addEventListener("tick", update);
 	}
@@ -97,8 +97,8 @@
 	
 		if (!this.isFollowingArrow && !this.isLevelOver) {
 			var bowAngle = this.archerilles.getBowRotation();
-			var arrow = new Arrow(this.archerilles.x + (86 * 0.75) * Math.cos(MathHelper.degreesToRadians(bowAngle)),
-				this.archerilles.y + (-86 * 0.75) * Math.sin(MathHelper.degreesToRadians(bowAngle)), bowAngle, assetQueue.getResult("arrow"));
+			var arrow = new Arrow(this.archerilles.x + (56 * 0.75) * Math.cos(MathHelper.degreesToRadians(bowAngle)),
+				this.archerilles.y + (-56 * 0.75) * Math.sin(MathHelper.degreesToRadians(bowAngle)), bowAngle, assetQueue.getResult("arrow"));
 			
 			this.archerilles.fireArrow();
 			this.isFollowingArrow = true;
@@ -141,6 +141,11 @@
 				break;
 			case 1:
 				this.archerilles.isMovingRight = true;
+				break;
+			case 2:
+				if (!this.archerilles.isJumping) {
+					this.archerilles.startJump(-12);
+				}
 				break;
 		}
 	}
@@ -192,9 +197,10 @@
 			level.y = -1 * level.activeArrow.y + level.height / 2;
 			
 			level.targetContainer.children.forEach(function(element, index, array) {
-				var elementSpace = element.hitBox.globalToLocal(level.activeArrow.x + 20, level.activeArrow.y + 20);
+				var xTest = level.activeArrow.x - (element.x - 20);
+				var yTest = level.activeArrow.y - (element.y - 20);
 			
-				if (element.hitBox.hitTest(elementSpace.x, elementSpace.y) && !element.isDestroyed) {
+				if (element.hitTest(xTest, yTest) && !element.isDestroyed) {
 					element.destroyKey();
 					level.numberOfTargets--;
 				}
@@ -208,7 +214,7 @@
 					level.activeArrow.deltaY *= -1;
 				}
 			}
-			else if (level.walls.floor.hitTest(level.activeArrow.x, level.activeArrow.y)) {
+			else if (level.walls.floor.hitTest(level.activeArrow.x, level.activeArrow.y) || level.walls.wood.hitTest(level.activeArrow.x, level.activeArrow.y)) {
 				level.stopActiveArrow();
 			}
 		}

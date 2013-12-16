@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 15.0.2, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.2" baseProfile="tiny" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+	 x="0px" y="0px" width="50px" height="50px" viewBox="0 0 50 50" xml:space="preserve">
+<g id="floor">
+	<rect x="450" y="400" fill="#808080" width="200" height="100"/>
+</g>
+<g id="metal">
+	<polygon points="650,0 250,0 150,0 100,0 0,0 0,500 100,500 450,500 450,400 450,350 450,300 450,250 300,300 200,350 150,400 
+		100,350 100,250 150,200 150,200 249.999,150 250,150 400,100 450,100 450,150 650,150 650,500 750,500 750,0 	"/>
+</g>
+<g id="wood">
+	<polygon fill="#534741" points="150,400 200,350 300,300 450,250 450,200 300,250 200,300 150,350 100,300 100,350 	"/>
+	<polygon fill="#534741" points="250,200 400,150 450,150 450,100 400,100 250,150 150,200 100,250 100,300 150,250 	"/>
+</g>
+</svg>

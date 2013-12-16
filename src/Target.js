@@ -13,15 +13,13 @@
 	p.initialize = function(x, y, assetQueue) {
 		this.Container_initialize();
 		
-		this.x = x;
-		this.y = y;
-		this.regX = 20;
-		this.regY = 20;
+		this.x = x - 20;
+		this.y = y - 20;
 		
 		this.isDestroyed = false;
 		
 		this.hitBox = new createjs.Shape();
-		this.hitBox.graphics.beginFill("#fff").drawRect(-25, -25, 50, 50);
+		this.hitBox.graphics.beginFill("#fff").drawRect(-10, -10, 60, 60);
 		this.hitBox.alpha = 0.01;
 		
 		this.key = new createjs.Sprite(new createjs.SpriteSheet({

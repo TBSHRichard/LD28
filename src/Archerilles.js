@@ -11,6 +11,8 @@
 	p.legsContainer;
 	p.isMovingLeft = false;
 	p.isMovingRight = false;
+	p.isJumping;
+	p.yVelocity;
 	
 	p.Container_initialize = p.initialize;
 	p.initialize = function(x, y, archerillesAsset, bowAsset) {
@@ -31,7 +33,7 @@
 			animations: {
 				drawn: [0],
 				fired: [1]}}), "drawn");
-		bow.regX = -30;
+		bow.regX = 30 * 0.75;
 		bow.regY = 30 * 0.75;
 		bow.scaleX = 0.75;
 		bow.scaleY = 0.75;
@@ -79,15 +81,20 @@
 	}
 	
 	p.moveLeft = function() {
-		if (!this.parent.hitWall(-25, -40)) {
+		if (!this.parent.hitWall(-50, -40)) {
 			this.x -= 5;
 		}
 	}
 	
 	p.moveRight = function() {
-		if (!this.parent.hitWall(25, -40)) {
+		if (!this.parent.hitWall(50, -40)) {
 			this.x += 5;
 		}
+	}
+	
+	p.startJump = function(startingVelocity) {
+		this.isJumping = true;
+		this.yVelocity = startingVelocity;
 	}
 	
 	function update(event) {
@@ -99,6 +106,14 @@
 		
 		if (character.isMovingRight) {
 			character.moveRight();
+		}
+		
+		if (character.isJumping) {
+			character.y += character.yVelocity;
+			character.yVelocity += 0.5;
+			
+			if (character.parent.hitWall(0, 60))
+				character.isJumping = false;
 		}
 	}
 	

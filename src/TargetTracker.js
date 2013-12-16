@@ -32,8 +32,8 @@
 	
 	p.update = function(viewRectangle) {
 		if (!this.target.isDestroyed) {
-			this.x = this.target.x;
-			this.y = this.target.y;
+			this.x = (this.target.x + 20);
+			this.y = (this.target.y + 20);
 			
 			var OFFSET = 30;
 			
@@ -58,7 +58,7 @@
 			
 			if (this.x != this.target.x || this.y != this.target.y) {
 				this.pointer.alpha = 1;
-				this.pointer.rotation = MathHelper.radiansToDegrees(Math.atan2(this.target.y - this.y, this.target.x - this.x));
+				this.pointer.rotation = MathHelper.radiansToDegrees(Math.atan2((this.target.y + 20) - this.y, (this.target.x + 20) - this.x));
 			}
 		}
 		else {
