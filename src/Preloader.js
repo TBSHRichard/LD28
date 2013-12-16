@@ -80,7 +80,8 @@
 			{id: "icon-use", src: "assets/images/btn-icons/use.png"},
 			{id: "main-menu", src: "assets/images/main-menu.png"},
 			{id: "level-t1", src: "assets/levels/t1.svg", type: createjs.LoadQueue.XML},
-			{id: "level-t2", src: "assets/levels/t2.svg", type: createjs.LoadQueue.XML}]);
+			{id: "level-t2", src: "assets/levels/t2.svg", type: createjs.LoadQueue.XML},
+			{id: "level-t4", src: "assets/levels/t4.svg", type: createjs.LoadQueue.XML}]);
 			
 		this.addChild(fadedLogo);
 		this.addChild(loadingText);

@@ -125,6 +125,7 @@
 				this.archerilles.switchLegs(this.assetQueue.getResult("power-shot"));
 				break;
 			case 4:
+				this.archerilles.arrows = 2;
 				this.archerilles.switchLegs(this.assetQueue.getResult("quiver"));
 				break;
 		}
