@@ -11,7 +11,8 @@
 	p.archerilles;
 	p.currentPower;
 	p.arrowContainer;
-	p.isFollowingArrow = false;
+	p.isFollowingArrow;
+	p.isLevelOver;
 	p.activeArrow;
 	p.walls;
 	p.targetContainer;
@@ -31,6 +32,9 @@
 		this.assetQueue = assetQueue;
 		this.data = data;
 		
+		this.isFollowingArrow = false;
+		this.isLevelOver = false;
+		
 		this.archerilles = new Archerilles(data.startX, data.startY, assetQueue.getResult("archerilles"), assetQueue.getResult("bow"));
 		this.x = -1 * data.startX + width / 2;
 		this.y = -1 * data.startY + height / 2;
@@ -45,11 +49,7 @@
 		
 		this.targetContainer = new createjs.Container();
 		for (var t = 0; t < data.targets.length; t++) {
-			var target = new createjs.Bitmap(assetQueue.getResult("target"));
-			target.regX = 20;
-			target.regY = 20;
-			target.x = data.targets[t].x;
-			target.y = data.targets[t].y;
+			var target = new Target(data.targets[t].x, data.targets[t].y, assetQueue);
 			
 			this.targets.push(target);
 			this.targetContainer.addChild(target);
@@ -86,7 +86,7 @@
 	}
 	
 	p.fireArrow = function() {
-		if (!this.isFollowingArrow) {
+		if (!this.isFollowingArrow && !this.isLevelOver) {
 			var bowAngle = this.archerilles.getBowRotation();
 			var arrow = new Arrow(this.archerilles.x + (86 * 0.75) * Math.cos(MathHelper.degreesToRadians(bowAngle)),
 				this.archerilles.y + (-86 * 0.75) * Math.sin(MathHelper.degreesToRadians(bowAngle)), bowAngle, assetQueue.getResult("arrow"));
@@ -155,6 +155,17 @@
 		this.isFollowingArrow = false;
 		this.activeArrow.isStopped = true;
 		this.activeArrow = null;
+		
+		if (this.numberOfTargets == 0) {
+			this.isLevelOver = true;
+		}
+		if (this.archerilles.arrows == 0) {
+			this.isLevelOver = true;
+		}
+		else {
+			this.archerilles.bow.gotoAndStop("drawn");
+			this.targetTrackerContainer.alpha = 1;
+		}
 	}
 	
 	function update(event) {
@@ -167,6 +178,15 @@
 		if (level.isFollowingArrow) {
 			level.x = -1 * level.activeArrow.x + level.width / 2;
 			level.y = -1 * level.activeArrow.y + level.height / 2;
+			
+			level.targetContainer.children.forEach(function(element, index, array) {
+				var elementSpace = element.hitBox.globalToLocal(level.activeArrow.x + 20, level.activeArrow.y + 20);
+			
+				if (element.hitBox.hitTest(elementSpace.x, elementSpace.y) && !element.isDestroyed) {
+					element.destroyKey();
+					level.numberOfTargets--;
+				}
+			});
 			
 			if (level.walls.metal.hitTest(level.activeArrow.x, level.activeArrow.y)) {
 				if (!level.walls.metal.hitTest(level.activeArrow.x - level.activeArrow.deltaX, level.activeArrow.y) || !level.walls.metal.hitTest(level.activeArrow.x + level.activeArrow.deltaX, level.activeArrow.y)) {

@@ -65,7 +65,6 @@
 	}
 	
 	p.getBowRotation = function() { return -1 * this.bow.rotation; }
-	p.setArrows = function(num) { this.arrows = num; }
 	p.fireArrow = function() {
 		this.arrows--;
 		this.bow.gotoAndStop("fired");
