@@ -23,6 +23,7 @@
 		<script type="text/javascript" src="src/Level.js"></script>
 		<script type="text/javascript" src="src/LevelWalls.js"></script>
 		<script type="text/javascript" src="src/GameView.js"></script>
+		<script type="text/javascript" src="src/Game.js"></script>
 		
 		<!-- Level classes -->
 		<script type="text/javascript" src="src/TutorialLevel1.js"></script>
@@ -66,11 +67,7 @@
 			function loadedAssets() {
 				isReady = true;
 				
-				var gameLevelsArray = [TutorialLevel1];
-				
-				currentView = new GameView(stage.canvas.width, stage.canvas.height, assetQueue, 0, gameLevelsArray)
-				GlobalControls.setView(currentView);
-				stage.addChild(currentView);
+				stage.addChild(new Game(stage, assetQueue));
 			}
 		</script>
 	</head>

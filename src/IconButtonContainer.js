@@ -78,5 +78,15 @@
 		this.bottomButtons.getChildAt(id).setEnabled(value);
 	}
 	
+	p.setAllEnabled = function(value) {
+		this.topButtons.children.forEach(function(element, index, array) {
+			element.setEnabled(value);
+		});
+		
+		this.bottomButtons.children.forEach(function(element, index, array) {
+			element.setEnabled(value);
+		});
+	}
+	
 	window.IconButtonContainer = IconButtonContainer;
 }())

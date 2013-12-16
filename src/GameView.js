@@ -36,8 +36,10 @@
 		var overlay = new IconButtonContainer(width, height, assetQueue);
 		this.overlay = overlay;
 		
+		GlobalControls.setView(this);
+		
 		this.level.data["disabledPowers"].forEach(function(element, index, array) {
-			overlay.setTopEnabled(element, false);
+			GlobalControls.setEnabled("power" + element, false);
 		});
 		
 		this.tutorialOverlay = new BeginningOverlay(66, width, height - 66, this.level.getBeginningOverlay(assetQueue));
@@ -46,6 +48,18 @@
 		this.addChild(this.level);
 		this.addChild(this.overlay);
 		this.addChild(this.tutorialOverlay);
+	}
+	
+	p.success = function() {
+	
+	}
+	
+	p.failure = function() {
+	
+	}
+	
+	p.restart = function() {
+	
 	}
 	
 	p.rotateCCW = function() { this.level.rotateCCW(); }

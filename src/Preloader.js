@@ -42,6 +42,7 @@
 		});
 		this.assetQueue.addEventListener("complete", queueCompleteFunction);
 		this.assetQueue.loadManifest([
+			{id: "text-button", src: "assets/images/button.png"},
 			{id: "arrow", src: "assets/images/arrow.png"},
 			{id: "archerilles", src: "assets/images/archerilles.png"},
 			{id: "bow", src: "assets/images/bow.png"},

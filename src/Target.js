@@ -21,7 +21,7 @@
 		this.isDestroyed = false;
 		
 		this.hitBox = new createjs.Shape();
-		this.hitBox.graphics.beginFill("#fff").drawRect(-20, -20, 40, 40);
+		this.hitBox.graphics.beginFill("#fff").drawRect(-25, -25, 50, 50);
 		this.hitBox.alpha = 0.01;
 		
 		this.key = new createjs.Sprite(new createjs.SpriteSheet({
