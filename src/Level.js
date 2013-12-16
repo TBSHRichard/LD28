@@ -9,7 +9,9 @@
 	p.assetQueue;
 	p.data;
 	p.archerilles;
+	p.currentPower;
 	p.arrowContainer;
+	p.isFollowingArrow = false;
 	p.walls;
 	p.targetContainer;
 	p.targetHelpers;
@@ -70,6 +72,8 @@
 	}
 	
 	p.switchPower = function(id) {
+		this.currentPower = id;
+	
 		switch(id) {
 			case 0:
 				this.archerilles.switchLegs(this.assetQueue.getResult("move-left"));
@@ -89,8 +93,43 @@
 		}
 	}
 	
+	p.hitWall = function(deltaX, deltaY) {
+		return this.walls.hitTest(this.archerilles.x + deltaX, this.archerilles.y + deltaY);
+	}
+	
+	p.usePower = function() {
+		switch(this.currentPower) {
+			case 0:
+				this.archerilles.isMovingLeft = true;
+				break;
+			case 1:
+				this.archerilles.isMovingRight = true;
+				break;
+		}
+	}
+	
+	p.stopPower = function() {
+		switch(this.currentPower) {
+			case 0:
+				this.archerilles.isMovingLeft = false;
+				break;
+			case 1:
+				this.archerilles.isMovingRight = false;
+				break;
+		}
+	}
+	
 	p.getBeginningOverlay = function(assetQueue) {
 		return assetQueue.getResult("overlay-normal");
+	}
+	
+	p.updateCamera = function() {
+		if (this.isFollowingArrow) {
+		
+		}
+		else {
+			this.x = -1 * this.archerilles.x + this.width / 2;
+		}
 	}
 	
 	window.Level = Level;

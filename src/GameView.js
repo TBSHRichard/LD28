@@ -5,11 +5,10 @@
 	
 	var p = GameView.prototype = new createjs.Container();
 	
+	p.assetQueue;
 	p.levelIndex;
 	p.levelClassesArray;
 	p.background;
-	//p.arrowContainer;
-	//p.archerilles;
 	p.level;
 	p.overlay;
 	p.assetQueue;
@@ -20,6 +19,7 @@
 	p.initialize = function(width, height, assetQueue, levelIndex, levelClassesArray) {
 		this.Container_initialize();
 		
+		this.assetQueue = assetQueue;
 		this.levelIndex = levelIndex;
 		this.levelClassesArray = levelClassesArray;
 		this.assetQueue = assetQueue;
@@ -27,10 +27,6 @@
 		this.height = height;
 		
 		this.background = new Background(0, 66, 544, 180, assetQueue);
-		
-		//this.arrowContainer = new createjs.Container();
-		
-		//this.archerilles = new Archerilles(width / 2, height / 2, assetQueue.getResult("archerilles"), assetQueue.getResult("bow"));
 		
 		this.level = new levelClassesArray[levelIndex](width, height, assetQueue);
 		
@@ -42,8 +38,6 @@
 		});
 		
 		this.addChild(this.background);
-		//this.addChild(this.arrowContainer);
-		//this.addChild(this.archerilles);
 		this.addChild(this.level);
 		this.addChild(this.overlay);
 		//this.addChild(new BeginningOverlay(66, width, height - 66, this.level.getBeginningOverlay(assetQueue)));
@@ -52,41 +46,30 @@
 	p.rotateCCW = function() { this.level.rotateCCW(); }
 	p.rotateCW = function() { this.level.rotateCW(); }
 	p.fireArrow = function() { this.level.fireArrow(); }
-	p.switchPower = function(id) { this.level.switchPower(id); }
-	
-	/*p.rotateCCW = function() {
-		this.archerilles.rotateBow(-1 * this.BOW_SPEED);
-	}
-	
-	p.rotateCW = function() {
-		this.archerilles.rotateBow(this.BOW_SPEED);
-	}
-	
-	p.fireArrow = function() {
-		var bowAngle = this.archerilles.getBowRotation();
-		
-		this.arrowContainer.addChild(new Arrow(this.width / 2 + 86 * Math.cos(MathHelper.degreesToRadians(bowAngle)), this.height / 2 + -86 * Math.sin(MathHelper.degreesToRadians(bowAngle)), bowAngle, assetQueue.getResult("arrow")));
-	}
-	
 	p.switchPower = function(id) {
+		this.level.switchPower(id);
+		
 		switch(id) {
 			case 0:
-				this.archerilles.switchLegs(this.assetQueue.getResult("move-left"));
+				this.overlay.setUsePowerButtonIcon(this.assetQueue.getResult("icon-move-left"));
 				break;
 			case 1:
-				this.archerilles.switchLegs(this.assetQueue.getResult("move-right"));
+				this.overlay.setUsePowerButtonIcon(this.assetQueue.getResult("icon-move-right"));
 				break;
 			case 2:
-				this.archerilles.switchLegs(this.assetQueue.getResult("jump"));
+				this.overlay.setUsePowerButtonIcon(this.assetQueue.getResult("icon-jump"));
 				break;
 			case 3:
-				this.archerilles.switchLegs(this.assetQueue.getResult("power-shot"));
+				this.overlay.setUsePowerButtonIcon(this.assetQueue.getResult("icon-power-shot"));
 				break;
 			case 4:
-				this.archerilles.switchLegs(this.assetQueue.getResult("quiver"));
+				this.overlay.setUsePowerButtonIcon(this.assetQueue.getResult("icon-quiver"));
+				this.overlay.setBottomEnabled(0, false);
 				break;
 		}
-	}*/
+	}
+	p.usePower = function() { this.level.usePower(); }
+	p.stopPower = function() { this.level.stopPower(); }
 	
 	window.GameView = GameView;
 }())

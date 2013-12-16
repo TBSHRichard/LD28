@@ -94,5 +94,9 @@
 		}
 	}
 	
+	p.setIcon = function(newIconAsset) {
+		this.icon.image = newIconAsset;
+	}
+	
 	window.IconButton = IconButton;
 }());

@@ -9,6 +9,8 @@
 	p.bow;
 	p.arrows;
 	p.legsContainer;
+	p.isMovingLeft = false;
+	p.isMovingRight = false;
 	
 	p.Container_initialize = p.initialize;
 	p.initialize = function(x, y, archerillesAsset, bowAsset) {
@@ -38,6 +40,8 @@
 		this.addChild(this.legsContainer);
 		this.addChild(this.character);
 		this.addChild(this.bow);
+		
+		this.addEventListener("tick", update);
 	}
 	
 	p.rotateBow = function(angle) {
@@ -71,6 +75,32 @@
 		legs.regX = 30;
 		legs.y = 35;
 		this.legsContainer.addChild(legs);
+	}
+	
+	p.moveLeft = function() {
+		if (!this.parent.hitWall(-25, -40)) {
+			this.x -= 5;
+			this.parent.updateCamera();
+		}
+	}
+	
+	p.moveRight = function() {
+		if (!this.parent.hitWall(25, -40)) {
+			this.x += 5;
+			this.parent.updateCamera();
+		}
+	}
+	
+	function update(event) {
+		var character = event.currentTarget;
+		
+		if (character.isMovingLeft) {
+			character.moveLeft();
+		}
+		
+		if (character.isMovingRight) {
+			character.moveRight();
+		}
 	}
 	
 	window.Archerilles = Archerilles;

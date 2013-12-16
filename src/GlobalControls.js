@@ -26,7 +26,11 @@
 	}
 	
 	GlobalControls.usePower = function() {
+		currentView.usePower();
+	}
 	
+	GlobalControls.stopPower = function() {
+		currentView.stopPower();
 	}
 	
 	$(document).keydown(function(event) {
@@ -48,7 +52,7 @@
 				GlobalControls.fire();
 				break;
 			case 87: // W
-				GlobalControls.userPower();
+				GlobalControls.usePower();
 				break;
 			case 97: // Numpad 1
 			case 98: // Numpad 2
@@ -65,6 +69,9 @@
 				break;
 			case 68: // D
 				GlobalControls.setIsRotatingCW(false);
+				break;
+			case 87: // W
+				GlobalControls.stopPower();
 				break;
 		}
 	});

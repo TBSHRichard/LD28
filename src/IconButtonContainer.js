@@ -7,11 +7,12 @@
 	
 	p.topButtons;
 	p.bottomButtons;
+	p.usePowerButton;
 	
 	p.Container_initialize = p.initialize;
 	p.initialize = function(width, height, assetQueue) {
 		this.Container_initialize();
-	
+		
 		var background = new createjs.Shape();
 		background.graphics.beginFill("#000").drawRect(0, 0, width, 6);
 		
@@ -47,7 +48,11 @@
 		cwButton.addEventListener("mousedown", function() { GlobalControls.setIsRotatingCW(true); });
 		cwButton.addEventListener("pressup", function() { GlobalControls.setIsRotatingCW(false); });
 		
-		bottomButtons.addChild(new IconButton(30, startY, assetQueue.getResult("icon-button"), assetQueue.getResult("icon-use"), "W", function() { GlobalControls.usePower(); }));
+		this.usePowerButton = new IconButton(30, startY, assetQueue.getResult("icon-button"), assetQueue.getResult("icon-use"), "W", function() {});
+		this.usePowerButton.addEventListener("mousedown", function() { GlobalControls.usePower(); });
+		this.usePowerButton.addEventListener("pressup", function() { GlobalControls.stopPower(); });
+		
+		bottomButtons.addChild(this.usePowerButton);
 		bottomButtons.addChild(ccwButton);
 		bottomButtons.addChild(cwButton);
 		bottomButtons.addChild(new IconButton(width - 30, startY, assetQueue.getResult("icon-button"), assetQueue.getResult("icon-fire"), "F", function() { GlobalControls.fire(); }));
@@ -59,6 +64,10 @@
 		this.addChild(topButtons);
 		this.addChild(bottomBar);
 		this.addChild(bottomButtons);
+	}
+	
+	p.setUsePowerButtonIcon = function(newIconAsset) {
+		this.usePowerButton.setIcon(newIconAsset);
 	}
 	
 	p.setTopEnabled = function(id, value) {
