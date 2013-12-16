@@ -47,6 +47,15 @@
 			case "use":
 				currentView.overlay.setBottomEnabled(0, value);
 				break;
+			case "rotateCCW":
+				currentView.overlay.setBottomEnabled(1, value);
+				break;
+			case "rotateCW":
+				currentView.overlay.setBottomEnabled(2, value);
+				break;
+			case "fire":
+				currentView.overlay.setBottomEnabled(3, value);
+				break;
 		}
 	}
 	

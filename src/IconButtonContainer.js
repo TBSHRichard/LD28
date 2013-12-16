@@ -41,16 +41,16 @@
 		startY = height - 36;
 		
 		var ccwButton = new IconButton(startX - 30, startY, assetQueue.getResult("icon-button"), assetQueue.getResult("icon-rotate-ccw"), "A", function() {});
-		ccwButton.addEventListener("mousedown", function() { GlobalControls.setIsRotatingCCW(true); });
-		ccwButton.addEventListener("pressup", function() { GlobalControls.setIsRotatingCCW(false); });
+		ccwButton.addEventListener("mousedown", function(event) { if (event.currentTarget.enabled) GlobalControls.setIsRotatingCCW(true); });
+		ccwButton.addEventListener("pressup", function(event) { if (event.currentTarget.enabled) GlobalControls.setIsRotatingCCW(false); });
 		
 		var cwButton = new IconButton(startX + 30, startY, assetQueue.getResult("icon-button"), assetQueue.getResult("icon-rotate-cw"), "D", function() {});
-		cwButton.addEventListener("mousedown", function() { GlobalControls.setIsRotatingCW(true); });
-		cwButton.addEventListener("pressup", function() { GlobalControls.setIsRotatingCW(false); });
+		cwButton.addEventListener("mousedown", function(event) { if (event.currentTarget.enabled) GlobalControls.setIsRotatingCW(true); });
+		cwButton.addEventListener("pressup", function(event) { if (event.currentTarget.enabled) GlobalControls.setIsRotatingCW(false); });
 		
 		this.usePowerButton = new IconButton(30, startY, assetQueue.getResult("icon-button"), assetQueue.getResult("icon-use"), "W", function() {});
-		this.usePowerButton.addEventListener("mousedown", function() { GlobalControls.usePower(); });
-		this.usePowerButton.addEventListener("pressup", function() { GlobalControls.stopPower(); });
+		this.usePowerButton.addEventListener("mousedown", function(event) { if (event.currentTarget.enabled) GlobalControls.usePower(); });
+		this.usePowerButton.addEventListener("pressup", function(event) { if (event.currentTarget.enabled) GlobalControls.stopPower(); });
 		
 		bottomButtons.addChild(this.usePowerButton);
 		bottomButtons.addChild(ccwButton);

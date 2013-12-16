@@ -8,7 +8,7 @@
 	p.button;
 	p.text;
 	
-	p.Container_initialize = p.intialize;
+	p.Container_initialize = p.initialize;
 	p.initialize = function(x, y, textString, assetQueue, clickFunction) {
 		this.Container_initialize();
 		
@@ -28,7 +28,7 @@
 		
 		var text = new createjs.Text(textString, "18px Arial", "#000");
 		text.x = 100 - text.getMeasuredWidth() / 2;
-		text.y = 60 - text.getMeasuredHeight() / 2;
+		text.y = 25 - text.getMeasuredHeight() / 2;
 		
 		this.text = text;
 		
@@ -42,14 +42,14 @@
 			var tButton = event.currentTarget.parent;
 			
 			tButton.button.gotoAndStop("out");
-			tButton.text.y += 7;
+			tButton.text.y -= 7;
 		});
 		
 		btnHit.addEventListener("mousedown", function(event) {
 			var tButton = event.currentTarget.parent;
 			
 			tButton.button.gotoAndStop("down");
-			tButton.text.y -= 7;
+			tButton.text.y += 7;
 		});
 		
 		this.addChild(button);

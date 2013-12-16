@@ -69,6 +69,13 @@
 		this.addEventListener("tick", update);
 	}
 	
+	p.setBottomControlsEnabled = function(value) {
+		GlobalControls.setEnabled("use", value);
+		GlobalControls.setEnabled("rotateCCW", value);
+		GlobalControls.setEnabled("rotateCW", value);
+		GlobalControls.setEnabled("fire", value);
+	}
+	
 	p.getViewportRectangle = function() {
 		return new createjs.Rectangle(
 			this.archerilles.x - this.width / 2,
@@ -86,6 +93,8 @@
 	}
 	
 	p.fireArrow = function() {
+		this.setBottomControlsEnabled(false);
+	
 		if (!this.isFollowingArrow && !this.isLevelOver) {
 			var bowAngle = this.archerilles.getBowRotation();
 			var arrow = new Arrow(this.archerilles.x + (86 * 0.75) * Math.cos(MathHelper.degreesToRadians(bowAngle)),
@@ -158,13 +167,16 @@
 		
 		if (this.numberOfTargets == 0) {
 			this.isLevelOver = true;
+			this.parent.success();
 		}
-		if (this.archerilles.arrows == 0) {
+		else if (this.archerilles.arrows == 0) {
 			this.isLevelOver = true;
+			this.parent.failure();
 		}
 		else {
 			this.archerilles.bow.gotoAndStop("drawn");
 			this.targetTrackerContainer.alpha = 1;
+			this.setBottomControlsEnabled(true);
 		}
 	}
 	

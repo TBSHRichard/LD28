@@ -36,11 +36,14 @@
 		var overlay = new IconButtonContainer(width, height, assetQueue);
 		this.overlay = overlay;
 		
+		GlobalControls.setView(null);
 		GlobalControls.setView(this);
 		
 		this.level.data["disabledPowers"].forEach(function(element, index, array) {
 			GlobalControls.setEnabled("power" + element, false);
 		});
+		
+		this.level.setBottomControlsEnabled(false);
 		
 		this.tutorialOverlay = new BeginningOverlay(66, width, height - 66, this.level.getBeginningOverlay(assetQueue));
 		
@@ -51,15 +54,47 @@
 	}
 	
 	p.success = function() {
-	
+		this.addChild(new BeginningOverlay(0, this.width, this.height, this.assetQueue.getResult("success")));
+		this.addChild(new TextButton(this.width / 2 - 205, this.height - 100, "Next Level", this.assetQueue, function(event) {
+			
+		}));
+		this.addChild(new TextButton(this.width / 2 + 5, this.height - 100, "Quit", this.assetQueue, function(event) {
+			
+		}));
 	}
 	
 	p.failure = function() {
-	
+		this.addChild(new BeginningOverlay(0, this.width, this.height, this.assetQueue.getResult("failure")));
+		this.addChild(new TextButton(this.width / 2 - 205, this.height - 100, "Try Again", this.assetQueue, function(event) {
+			var view = event.currentTarget.parent.parent;
+			
+			view.parent.gotoLevel(view.levelIndex);
+		}));
+		this.addChild(new TextButton(this.width / 2 + 5, this.height - 100, "Quit", this.assetQueue, function(event) {
+			
+		}));
 	}
 	
-	p.restart = function() {
-	
+	p.restart = function(power) {
+		var overlay = new BeginningOverlay(0, this.width, this.height, this.assetQueue.getResult("restart"));
+		var buttonYes = new TextButton(this.width / 2 - 205, this.height - 100, "Yes", this.assetQueue, function(event) {
+			var view = event.currentTarget.parent.parent;
+			
+			view.parent.gotoLevel(view.levelIndex, power);
+		});
+		var buttonNo = new TextButton(this.width / 2 + 5, this.height - 100, "No", this.assetQueue, function(event) {});
+		
+		buttonNo.clickFunction = function(event) {
+			var view = event.currentTarget.parent.parent;
+			
+			view.removeChild(overlay);
+			view.removeChild(buttonYes);
+			view.removeChild(buttonNo);
+		};
+		
+		this.addChild(overlay);
+		this.addChild(buttonYes);
+		this.addChild(buttonNo);
 	}
 	
 	p.rotateCCW = function() { this.level.rotateCCW(); }
@@ -70,6 +105,8 @@
 		if (!this.hasSelectedPower) {
 			this.hasSelectedPower = true;
 			this.removeChild(this.tutorialOverlay);
+		
+			this.level.setBottomControlsEnabled(true);
 			
 			this.level.switchPower(id);
 			
@@ -91,6 +128,9 @@
 					this.overlay.setBottomEnabled(0, false);
 					break;
 			}
+		}
+		else {
+			this.restart(id);
 		}
 	}
 	
