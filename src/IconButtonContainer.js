@@ -5,6 +5,9 @@
 	
 	var p = IconButtonContainer.prototype = new createjs.Container();
 	
+	p.topButtons;
+	p.bottomButtons;
+	
 	p.Container_initialize = p.initialize;
 	p.initialize = function(width, height, assetQueue) {
 		this.Container_initialize();
@@ -28,6 +31,8 @@
 		topButtons.addChild(new IconButton(startX + 60, startY, assetQueue.getResult("icon-button"), assetQueue.getResult("icon-power-shot"), "4", function() { GlobalControls.choosePower(3); }));
 		topButtons.addChild(new IconButton(startX + 120, startY, assetQueue.getResult("icon-button"), assetQueue.getResult("icon-quiver"), "5", function() { GlobalControls.choosePower(4); }));
 		
+		this.topButtons = topButtons;
+		
 		var bottomBar = new createjs.Shape();
 		bottomBar.graphics.beginBitmapFill(assetQueue.getResult("button-bar"), "repeat", barMatrix).drawRect(0, height - 60, width, 60);
 		
@@ -47,11 +52,21 @@
 		bottomButtons.addChild(cwButton);
 		bottomButtons.addChild(new IconButton(width - 30, startY, assetQueue.getResult("icon-button"), assetQueue.getResult("icon-fire"), "F", function() { GlobalControls.fire(); }));
 		
+		this.bottomButtons = bottomButtons;
+		
 		this.addChild(background);
 		this.addChild(topBar);
 		this.addChild(topButtons);
 		this.addChild(bottomBar);
 		this.addChild(bottomButtons);
+	}
+	
+	p.setTopEnabled = function(id, value) {
+		this.topButtons.getChildAt(id).setEnabled(value);
+	}
+	
+	p.setBottomEnabled = function(id, value) {
+		this.bottomButtons.getChildAt(id).setEnabled(value);
 	}
 	
 	window.IconButtonContainer = IconButtonContainer;

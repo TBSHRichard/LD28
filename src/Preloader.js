@@ -45,6 +45,22 @@
 			{id: "arrow", src: "assets/images/arrow.png"},
 			{id: "archerilles", src: "assets/images/archerilles.png"},
 			{id: "bow", src: "assets/images/bow.png"},
+			{id: "target", src: "assets/images/key.png"},
+			{id: "move-left", src: "assets/images/move-left.png"},
+			{id: "move-right", src: "assets/images/move-right.png"},
+			{id: "jump", src: "assets/images/jump.png"},
+			{id: "power-shot", src: "assets/images/power-shot.png"},
+			{id: "quiver", src: "assets/images/quiver.png"},
+			{id: "bg-back", src: "assets/images/background-back.png"},
+			{id: "bg-middle", src: "assets/images/background-middle.png"},
+			{id: "bg-front", src: "assets/images/background-front.png"},
+			{id: "texture-metal", src: "assets/images/texture-metal.png"},
+			{id: "texture-wood", src: "assets/images/texture-wood.png"},
+			{id: "overlay-normal", src: "assets/images/overlay-normal.png"},
+			{id: "overlay-t1", src: "assets/images/overlay-t1.png"},
+			{id: "overlay-t2", src: "assets/images/overlay-t2.png"},
+			{id: "overlay-t3", src: "assets/images/overlay-t3.png"},
+			{id: "overlay-t4", src: "assets/images/overlay-t4.png"},
 			{id: "icon-button", src: "assets/images/icon-button.png"},
 			{id: "button-bar", src: "assets/images/button-bar.png"},
 			{id: "icon-move-left", src: "assets/images/btn-icons/move-left.png"},
@@ -55,7 +71,8 @@
 			{id: "icon-fire", src: "assets/images/btn-icons/fire.png"},
 			{id: "icon-rotate-ccw", src: "assets/images/btn-icons/rotate-ccw.png"},
 			{id: "icon-rotate-cw", src: "assets/images/btn-icons/rotate-cw.png"},
-			{id: "icon-use", src: "assets/images/btn-icons/use.png"}]);
+			{id: "icon-use", src: "assets/images/btn-icons/use.png"},
+			{id: "level-t1", src: "assets/levels/t1.svg", type: createjs.LoadQueue.XML}]);
 			
 		this.addChild(fadedLogo);
 		this.addChild(loadingText);

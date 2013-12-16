@@ -8,6 +8,7 @@
 	p.character;
 	p.bow;
 	p.arrows;
+	p.legsContainer;
 	
 	p.Container_initialize = p.initialize;
 	p.initialize = function(x, y, archerillesAsset, bowAsset) {
@@ -32,6 +33,9 @@
 		bow.regY = 30;
 		this.bow = bow;
 		
+		this.legsContainer = new createjs.Container();
+		
+		this.addChild(this.legsContainer);
 		this.addChild(this.character);
 		this.addChild(this.bow);
 	}
@@ -46,9 +50,11 @@
 		
 		if (Math.floor(Math.abs(this.bow.rotation)) % 181 < 90) {
 			this.character.scaleX = 1;
+			this.legsContainer.x = 0;
 		}
 		else {
 			this.character.scaleX = -1;
+			this.legsContainer.x = -8;
 		}
 	}
 	
@@ -57,6 +63,14 @@
 	p.fireArrow = function() {
 		this.arrows--;
 		this.bow.gotoAndStop("fired");
+	}
+	
+	p.switchLegs = function(legsAsset) {
+		this.legsContainer.removeAllChildren();
+		var legs = new createjs.Bitmap(legsAsset);
+		legs.regX = 30;
+		legs.y = 35;
+		this.legsContainer.addChild(legs);
 	}
 	
 	window.Archerilles = Archerilles;

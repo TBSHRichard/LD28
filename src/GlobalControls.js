@@ -22,7 +22,7 @@
 	}
 	
 	GlobalControls.choosePower = function(power) {
-		
+		currentView.switchPower(power);
 	}
 	
 	GlobalControls.usePower = function() {

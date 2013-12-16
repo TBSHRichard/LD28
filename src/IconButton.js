@@ -9,6 +9,8 @@
 	p.button;
 	p.icon;
 	p.keyText;
+	p.clickFunction;
+	p.enabled = true;
 	
 	p.Container_initialize = p.initialize;
 	p.initialize = function(x, y, buttonAsset, iconAsset, key, clickFunction) {
@@ -19,12 +21,14 @@
 		this.regX = 25;
 		this.regY = 30;
 		
+		this.clickFunction = clickFunction;
+		
 		var data = {
 			images: [buttonAsset],
 			frames: {width: 50, height: 60},
 			animations: {
 				out: {frames: [0]},
-				over: {frames: [1]},
+				disabled: {frames: [1]},
 				down: {frames: [2]}
 			}
 		}
@@ -37,26 +41,57 @@
 		this.keyText.x = 45 - this.keyText.getMeasuredWidth();
 		this.keyText.y = 3;
 		
+		var btnHit = new createjs.Shape();
+		btnHit.graphics.beginFill("#fff").drawRect(0, 0, 50, 60);
+		btnHit.alpha = 0.01;
+		
 		this.addChild(this.button);
 		this.addChild(this.icon);
 		this.addChild(this.keyText);
+		this.addChild(btnHit);
 		
-		this.addEventListener("click", clickFunction);
+		btnHit.addEventListener("click", function(event) {
+			var iButton = event.currentTarget.parent;
+			
+			if (iButton.enabled) {
+				iButton.clickFunction(event);
+			}
+		});
 		
-		this.addEventListener("pressup", function(event) {
-			var iButton = event.currentTarget;
+		btnHit.addEventListener("pressup", function(event) {
+			var iButton = event.currentTarget.parent;
 			
-			iButton.button.gotoAndStop("out");
-			iButton.icon.y = 0;
-			iButton.keyText.y = 3;
+			if (iButton.enabled) {
+				iButton.button.gotoAndStop("out");
+				iButton.icon.y = 0;
+				iButton.keyText.y = 3;
+			}
 		});
-		this.addEventListener("mousedown", function(event) {
-			var iButton = event.currentTarget;
+		
+		btnHit.addEventListener("mousedown", function(event) {
+			var iButton = event.currentTarget.parent;
 			
-			iButton.button.gotoAndStop("down");
-			iButton.icon.y = 7;
-			iButton.keyText.y = 10;
+			if (iButton.enabled) {
+				iButton.button.gotoAndStop("down");
+				iButton.icon.y = 7;
+				iButton.keyText.y = 10;
+			}
 		});
+	}
+	
+	p.setEnabled = function(value) {
+		this.enabled = value;
+		
+		if (this.enabled) {
+			this.button.gotoAndStop("out");
+			this.icon.alpha = 1;
+			this.keyText.alpha = 1;
+		}
+		else {
+			this.button.gotoAndStop("disabled");
+			this.icon.alpha = 0.5;
+			this.keyText.alpha = 0.5;
+		}
 	}
 	
 	window.IconButton = IconButton;

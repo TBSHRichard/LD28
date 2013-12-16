@@ -9,13 +9,21 @@
 		
 		<!-- Class includes -->
 		<script type="text/javascript" src="src/MathHelper.js"></script>
+		<script type="text/javascript" src="src/SvgXmlHelper.js"></script>
 		<script type="text/javascript" src="src/GlobalControls.js"></script>
 		<script type="text/javascript" src="src/Preloader.js"></script>
+		<script type="text/javascript" src="src/BeginningOverlay.js"></script>
 		<script type="text/javascript" src="src/IconButton.js"></script>
 		<script type="text/javascript" src="src/IconButtonContainer.js"></script>
+		<script type="text/javascript" src="src/Background.js"></script>
 		<script type="text/javascript" src="src/Archerilles.js"></script>
 		<script type="text/javascript" src="src/Arrow.js"></script>
+		<script type="text/javascript" src="src/Level.js"></script>
+		<script type="text/javascript" src="src/LevelWalls.js"></script>
 		<script type="text/javascript" src="src/GameView.js"></script>
+		
+		<!-- Level classes -->
+		<script type="text/javascript" src="src/TutorialLevel1.js"></script>
 		
 		<!-- Main execution -->
 		<script type="text/javascript">
@@ -40,36 +48,6 @@
 				preloaderQueue.loadFile({id: "logo", src: "assets/images/tbsh.png"});
 				preloaderQueue.addEventListener("complete", startPreloader);
 			});
-	
-			/*var isRotatingCCW = false;
-			var isRotatingCW = false;
-			
-			$(document).keydown(function(event) {
-				if (isReady) {
-					switch(event.which) {
-						case 65: // A
-							isRotatingCCW = true;
-							break;
-						case 68: // D
-							isRotatingCW = true;
-							break;
-						case 70: // F
-							currentView.fireArrow();
-							break;
-					}
-				}
-			}).keyup(function(event) {
-				if (isReady) {
-					switch(event.which) {
-						case 65: // A
-							isRotatingCCW = false;
-							break;
-						case 68: // D
-							isRotatingCW = false;
-							break;
-					}
-				}
-			});*/
 			
 			function startPreloader() {
 				var preloader = new Preloader(stage.canvas.width, stage.canvas.height, preloaderQueue.getResult("logo"), function() {
@@ -81,24 +59,14 @@
 				stage.addChild(preloader);
 				
 				createjs.Ticker.addEventListener("tick", stage);
-			
-				/*createjs.Ticker.addEventListener("tick", function() {
-					if (isRotatingCCW) {
-						currentView.rotateCCW();
-					}
-					
-					if (isRotatingCW) {
-						currentView.rotateCW();
-					}
-					
-					stage.update();
-				});*/
 			}
 			
 			function loadedAssets() {
 				isReady = true;
 				
-				currentView = new GameView(stage.canvas.width, stage.canvas.height, assetQueue)
+				var gameLevelsArray = [TutorialLevel1];
+				
+				currentView = new GameView(stage.canvas.width, stage.canvas.height, assetQueue, 0, gameLevelsArray)
 				GlobalControls.setView(currentView);
 				stage.addChild(currentView);
 			}
