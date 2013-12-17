@@ -49,6 +49,7 @@
 			{id: "bow", src: "assets/images/bow.png"},
 			{id: "target", src: "assets/images/key.png"},
 			{id: "dt-wall", src: "assets/images/dt-wall.png"},
+			{id: "bouncer", src: "assets/images/bouncer.png"},
 			{id: "move-left", src: "assets/images/move-left.png"},
 			{id: "move-right", src: "assets/images/move-right.png"},
 			{id: "jump", src: "assets/images/jump.png"},
@@ -81,10 +82,12 @@
 			{id: "icon-rotate-cw", src: "assets/images/btn-icons/rotate-cw.png"},
 			{id: "icon-use", src: "assets/images/btn-icons/use.png"},
 			{id: "main-menu", src: "assets/images/main-menu.png"},
+			{id: "end", src: "assets/images/end.png"},
 			{id: "level-t1", src: "assets/levels/t1.svg", type: createjs.LoadQueue.XML},
 			{id: "level-t2", src: "assets/levels/t2.svg", type: createjs.LoadQueue.XML},
 			{id: "level-t3", src: "assets/levels/t3.svg", type: createjs.LoadQueue.XML},
-			{id: "level-t4", src: "assets/levels/t4.svg", type: createjs.LoadQueue.XML}]);
+			{id: "level-t4", src: "assets/levels/t4.svg", type: createjs.LoadQueue.XML},
+			{id: "level-l", src: "assets/levels/l.svg", type: createjs.LoadQueue.XML}]);
 			
 		this.addChild(fadedLogo);
 		this.addChild(loadingText);

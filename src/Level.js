@@ -62,14 +62,27 @@
 			var dtWall = new createjs.Bitmap(assetQueue.getResult("dt-wall"));
 			dtWall.x = data.dtWalls[d].x;
 			dtWall.y = data.dtWalls[d].y;
+			dtWall.rotation = data.dtWalls[d].r;
+			dtWall.scaleX = data.dtWalls[d].s;
 		
 			this.dtWalls.addChild(dtWall);
 		}
 		
-		this.bouncers = [];
+		this.bouncers = new createjs.Container();
+		for (var b = 0; b < data.bouncers.length; b++) {
+			var bouncer = new createjs.Bitmap(assetQueue.getResult("bouncer"));
+			bouncer.regX = 20;
+			bouncer.regY = 20;
+			bouncer.x = data.bouncers[b].x;
+			bouncer.y = data.bouncers[b].y;
+			bouncer.rotation = data.bouncers[b].r;
+			
+			this.bouncers.addChild(bouncer);
+		}
 		
 		this.addChild(this.targetContainer);
 		this.addChild(this.dtWalls);
+		this.addChild(this.bouncers);
 		this.addChild(this.arrowContainer);
 		this.addChild(this.walls);
 		this.addChild(this.archerilles);
@@ -242,6 +255,18 @@
 							level.activeArrow.deltaY *= -1;
 						}
 					}
+				}
+			});
+			
+			level.bouncers.children.forEach(function(element, index, array) {
+				var xTest = level.activeArrow.x - (element.x - 20);
+				var yTest = level.activeArrow.y - (element.y - 20);
+				
+				if (element.hitTest(xTest, yTest) && level.activeArrow.bouncerRecharge == 0) {
+					level.activeArrow.x = element.x;
+					level.activeArrow.y = element.y;
+					level.activeArrow.recalculate(element.rotation * -1);
+					level.activeArrow.bouncerRecharge = 2;
 				}
 			});
 			

@@ -12,9 +12,9 @@
 	
 	p.Container_initialize = p.initialize;
 	p.initialize = function(stage, assetQueue) {
-		this.gameLevelsArray = [TutorialLevel1, TutorialLevel2, TutorialLevel3, TutorialLevel4];
+		this.gameLevelsArray = [TutorialLevel1, TutorialLevel2, TutorialLevel3, TutorialLevel4, FinalLevel];
 		
-		this.currentView = new GameView(stage.canvas.width, stage.canvas.height, assetQueue, 2, this.gameLevelsArray);
+		this.currentView = new MainMenuView(assetQueue);
 		this.stage = stage;
 		this.assetQueue = assetQueue;
 		
@@ -32,10 +32,10 @@
 	}
 	
 	p.gotoLevel = function(levelId, power) {
-		if (levelId < 12)
+		if (levelId < 5)
 			this.switchView(new GameView(stage.canvas.width, stage.canvas.height, assetQueue, levelId, this.gameLevelsArray));
 		else
-			console.log("TODO: to end screen");
+			this.switchView(new EndView(this.assetQueue));
 			
 		if (typeof power !== 'undefined') {
 			this.currentView.switchPower(power);

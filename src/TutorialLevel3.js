@@ -6,7 +6,7 @@
 			hasWood: false,
 			disabledPowers: [0, 1, 2, 4],
 			targets: [{x: 200, y: 150}],
-			dtWalls: [{x: 150, y: 200}],
+			dtWalls: [{x: 150, y: 200, r: 0, s: 1}],
 			bouncers: []
 		});
 	}

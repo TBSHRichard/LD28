@@ -14,6 +14,7 @@
 	p.bitmap;
 	p.isStopped;
 	p.isPower;
+	p.boucerRecharge;
 	
 	p.Container_initialize = p.initialize;
 	p.initialize = function(x, y, rotation, bitmapAsset) {
@@ -25,6 +26,7 @@
 		this.scaleY = 0.75;
 		this.rotation = -1 * rotation;
 		this.isPower = false;
+		this.bouncerRecharge = 0;
 		
 		this.regX = 56 * 0.75;
 		this.regY = 15 * 0.75;
@@ -49,6 +51,9 @@
 		var arrow = event.currentTarget;
 		
 		if (!event.paused && !arrow.isStopped) {
+			if (arrow.bouncerRecharge > 0)
+				arrow.bouncerRecharge--;
+		
 			arrow.deltaY += arrow.DECEL;
 			
 			arrow.rotation = MathHelper.radiansToDegrees(Math.atan2(arrow.deltaY, arrow.deltaX));
