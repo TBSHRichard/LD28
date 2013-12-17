@@ -1,6 +1,7 @@
 (function() {
-	var Arrow = function(x, y, rotation, bitmapAsset) {
-		this.initialize(x, y, rotation, bitmapAsset);
+	var Arrow = function(x, y, rotation, bitmapAsset, init) {
+		if (typeof init === 'undefined')
+			this.initialize(x, y, rotation, bitmapAsset);
 	}
 	
 	var p = Arrow.prototype = new createjs.Container();
@@ -12,6 +13,7 @@
 	p.deltaY;
 	p.bitmap;
 	p.isStopped;
+	p.isPower;
 	
 	p.Container_initialize = p.initialize;
 	p.initialize = function(x, y, rotation, bitmapAsset) {
@@ -22,6 +24,7 @@
 		this.scaleX = 0.75;
 		this.scaleY = 0.75;
 		this.rotation = -1 * rotation;
+		this.isPower = false;
 		
 		this.regX = 56 * 0.75;
 		this.regY = 15 * 0.75;
@@ -35,6 +38,11 @@
 		this.addChild(this.bitmap);
 		
 		this.addEventListener("tick", onTick);
+	}
+	
+	p.recalculate = function(rotation) {
+		this.deltaX = Math.cos(MathHelper.degreesToRadians(rotation)) * this.INITIAL_V;
+		this.deltaY = -1 * Math.sin(MathHelper.degreesToRadians(rotation)) * this.INITIAL_V;
 	}
 	
 	var onTick = function(event) {

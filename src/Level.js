@@ -57,10 +57,19 @@
 			this.numberOfTargets++;
 		}
 		
-		this.dtWalls = [];
+		this.dtWalls = new createjs.Container();
+		for (var d = 0; d < data.dtWalls.length; d++) {
+			var dtWall = new createjs.Bitmap(assetQueue.getResult("dt-wall"));
+			dtWall.x = data.dtWalls[d].x;
+			dtWall.y = data.dtWalls[d].y;
+		
+			this.dtWalls.addChild(dtWall);
+		}
+		
 		this.bouncers = [];
 		
 		this.addChild(this.targetContainer);
+		this.addChild(this.dtWalls);
 		this.addChild(this.arrowContainer);
 		this.addChild(this.walls);
 		this.addChild(this.archerilles);
@@ -97,8 +106,17 @@
 	
 		if (!this.isFollowingArrow && !this.isLevelOver) {
 			var bowAngle = this.archerilles.getBowRotation();
-			var arrow = new Arrow(this.archerilles.x + (56 * 0.75) * Math.cos(MathHelper.degreesToRadians(bowAngle)),
-				this.archerilles.y + (-56 * 0.75) * Math.sin(MathHelper.degreesToRadians(bowAngle)), bowAngle, assetQueue.getResult("arrow"));
+			var fireX = this.archerilles.x + (56 * 0.75) * Math.cos(MathHelper.degreesToRadians(bowAngle));
+			var fireY = this.archerilles.y + (-56 * 0.75) * Math.sin(MathHelper.degreesToRadians(bowAngle));
+			
+			var arrow;
+			
+			if (this.archerilles.isPower) {
+				arrow = new PowerArrow(fireX, fireY, bowAngle, assetQueue.getResult("power-arrow"));
+			}
+			else {
+				arrow = new Arrow(fireX, fireY, bowAngle, assetQueue.getResult("arrow"));
+			}
 			
 			this.archerilles.fireArrow();
 			this.isFollowingArrow = true;
@@ -122,6 +140,7 @@
 				this.archerilles.switchLegs(this.assetQueue.getResult("jump"));
 				break;
 			case 3:
+				this.archerilles.isPower = true;
 				this.archerilles.switchLegs(this.assetQueue.getResult("power-shot"));
 				break;
 			case 4:
@@ -198,12 +217,31 @@
 			level.y = -1 * level.activeArrow.y + level.height / 2;
 			
 			level.targetContainer.children.forEach(function(element, index, array) {
-				var xTest = level.activeArrow.x - (element.x - 20);
-				var yTest = level.activeArrow.y - (element.y - 20);
+				var xTest = level.activeArrow.x - (element.x);
+				var yTest = level.activeArrow.y - (element.y);
 			
 				if (element.hitTest(xTest, yTest) && !element.isDestroyed) {
 					element.destroyKey();
 					level.numberOfTargets--;
+				}
+			});
+			
+			level.dtWalls.children.forEach(function(element, index, array) {
+				var xTest = level.activeArrow.x - (element.x);
+				var yTest = level.activeArrow.y - (element.y);
+			
+				if (element.hitTest(xTest, yTest)) {
+					if (level.activeArrow.isPower) {
+						element.visible = false;
+					}
+					else {
+						if (!element.hitTest(xTest - level.activeArrow.deltaX, yTest) || !element.hitTest(xTest + level.activeArrow.deltaX, yTest)) {
+							level.activeArrow.deltaX *= -1;
+						}
+						else {
+							level.activeArrow.deltaY *= -1;
+						}
+					}
 				}
 			});
 			

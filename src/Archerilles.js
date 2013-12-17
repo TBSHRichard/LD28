@@ -13,6 +13,7 @@
 	p.isMovingRight = false;
 	p.isJumping;
 	p.yVelocity;
+	p.isPower;
 	
 	p.Container_initialize = p.initialize;
 	p.initialize = function(x, y, archerillesAsset, bowAsset) {
@@ -21,6 +22,7 @@
 		this.x = x;
 		this.y = y;
 		this.arrows = 1;
+		this.isPower = false;
 		
 		var character = new createjs.Bitmap(archerillesAsset);
 		character.regX = 30;

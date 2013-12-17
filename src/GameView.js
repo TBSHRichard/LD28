@@ -124,6 +124,7 @@
 					break;
 				case 3:
 					this.overlay.setUsePowerButtonIcon(this.assetQueue.getResult("icon-power-shot"));
+					this.overlay.setBottomEnabled(0, false);
 					break;
 				case 4:
 					this.overlay.setUsePowerButtonIcon(this.assetQueue.getResult("icon-quiver"));
