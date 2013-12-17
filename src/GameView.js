@@ -84,7 +84,13 @@
 			
 			view.parent.gotoLevel(view.levelIndex, power);
 		});
-		var buttonNo = new TextButton(this.width / 2 + 5, this.height - 100, "No", this.assetQueue, function(event) {});
+		var buttonNo = new TextButton(this.width / 2 + 5, this.height - 100, "No", this.assetQueue, function(event) {
+			var view = event.currentTarget.parent.parent;
+			
+			view.removeChild(overlay);
+			view.removeChild(buttonYes);
+			view.removeChild(buttonNo);
+		});
 		
 		buttonNo.clickFunction = function(event) {
 			var view = event.currentTarget.parent.parent;
